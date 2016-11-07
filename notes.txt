@@ -1,0 +1,4 @@
+# initialize this env vars with correct settings
+RDMC_CMTS_USER=uuuuuuu; export RDMC_CMTS_USER
+RDMC_CMTS_PASS=xxxxxxx; export RDMC_CMTS_PASS
+
