@@ -11,10 +11,7 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-const (
-	username = "ricardo"
-	password = "zerty34sr71"
-)
+
 
 type CMTS struct {
 	name    string
