@@ -139,6 +139,10 @@ func (s *Session) Command(cmd string) ([]string, error) {
 	return out, nil
 }
 
+func parse_scm()
+        
+}
+
 /*
 func scm(t *telnet.Conn, mac string) (string, string, error) {
 
@@ -163,8 +167,7 @@ func scm(t *telnet.Conn, mac string) (string, string, error) {
 	//                                                                                    D
 	//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
 	//                                               State         Sid  (dBmv) Offset CPE P
-	//   7085.c6dd.cd57 10.1.10.98     C8/1/2/U2     online(pt)    5609 -0.50  4821   1   N
-        //
+	//   7085.c6dd.cd57 10.1.1
+        
 
-}
-*/
+        
