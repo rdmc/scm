@@ -11,8 +11,6 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-
-
 type CMTS struct {
 	name    string
 	addr    string
@@ -34,9 +32,9 @@ type Session struct {
 func (c *CMTS) Connect() error {
 	var err error
 	sshConfig := &ssh.ClientConfig{
-		User: username,
+		User: cmtsUsername,
 		Auth: []ssh.AuthMethod{
-			ssh.Password(password),
+			ssh.Password(cmtsPassword),
 		},
 	}
 	sshConfig.Ciphers = append(sshConfig.Ciphers, "aes128-cbc") // bad ciscio, bad !!!!
@@ -136,10 +134,6 @@ func (s *Session) Command(cmd string) ([]string, error) {
 	return out, nil
 }
 
-func parse_scm()
-        
-}
-
 /*
 func scm(t *telnet.Conn, mac string) (string, string, error) {
 
@@ -165,6 +159,6 @@ func scm(t *telnet.Conn, mac string) (string, string, error) {
 	//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
 	//                                               State         Sid  (dBmv) Offset CPE P
 	//   7085.c6dd.cd57 10.1.1
-        
 
-        
+
+*/
