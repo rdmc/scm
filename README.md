@@ -1,0 +1,1 @@
+#scm - show cable modem
