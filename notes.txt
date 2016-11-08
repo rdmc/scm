@@ -2,3 +2,6 @@
 RDMC_CMTS_USER=uuuuuuu; export RDMC_CMTS_USER
 RDMC_CMTS_PASS=xxxxxxx; export RDMC_CMTS_PASS
 
+
+# my CM
+8494.8c0a.19c0
