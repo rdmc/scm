@@ -1,10 +1,9 @@
 package main
 
-import (
-	//"encoding/json"
-	"fmt"
-	"os"
-)
+import
+//"encoding/json"
+
+"os"
 
 var (
 	cmtsUsername string
@@ -33,7 +32,7 @@ func init() {
 			}
 			fmt.Println(configuration.Users) // output: [UserA, UserB]
 	*/
-	fmt.Println("Environment RDMC_CMTS_USER:" + cmtsUsername)
-	fmt.Println("Environment RDMC_CMTS_PASS:" + cmtsPassword)
+	//fmt.Println("Environment RDMC_CMTS_USER:" + cmtsUsername)
+	//fmt.Println("Environment RDMC_CMTS_PASS:" + cmtsPassword)
 
 }

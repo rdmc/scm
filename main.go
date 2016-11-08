@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"strings"
 	//"net"
 	//"sync"
 
@@ -22,7 +23,8 @@ func main() {
 	fmt.Println("looking for", m)
 
 	c := &CMTS{
-		name:   "cm02ac01",
+		//name:   "cm02ac01",
+		name:   "pdl1cmts002",
 		addr:   "10.212.128.1",
 		prompt: "#",
 	}
@@ -36,17 +38,18 @@ func main() {
 		log.Fatal("UNABLE TO CREATE SESSION:", err)
 	}
 	fmt.Println("!#create session ok")
-	res, _ := s.Command("show cable modem " + m.CiscoString())
-	//fmt.Println(strings.Join(res, "\n"))
-	//fmt.Printf("len res = %d\n", len(res))
+	res, _ := s.Command("show cable modem " + m.CiscoString() + "2")
+	fmt.Println(strings.Join(res, "\n"))
+	fmt.Printf("len res = %d\n", len(res))
 	fmt.Println("!#send commmand ok")
 
 	state, line, err := parseSCM(res)
 	if err != nil {
 		log.Println("Erroe:", err)
+		goto end
 	}
-	fmt.Printf("Modem: %s, State: %s, line: %q\n", m, state, line)
-
+	fmt.Printf("CMTS:%s\nModem: %s\nState: %s\nline: %q\n", c.name, m, state, line)
+end:
 	s.Close()
 	fmt.Println("!#Session close ok")
 	c.Close()

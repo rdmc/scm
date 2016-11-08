@@ -1,19 +1,18 @@
 package main
 
 import (
-        "network"
-	"github.com/rdmc/mac"
+	"fmt"
+	"strings"
 )
 
 // ios Version 12.2(33)SCG7
 // assume NO dual ip (ip v4 only), No cable modem remote query
 
-
-
+/*
 type scm_response struct {
         mac     mac.MAC
         ip      net
-
+*/
 
 /*
 // show cable modem xxxx.xxxx.xxxx
@@ -48,16 +47,13 @@ func parseSCM(res []string) (string, string, error) {
 
 	return f[3], res[3], nil
 }
-	//
-        //
-	//                                                                                    D
-	//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
-	//                                               State         Sid  (dBmv) Offset CPE P
-	//   7085.c6dd.cd57 10.1.1
 
-
-
-
+//
+//
+//                                                                                    D
+//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
+//                                               State         Sid  (dBmv) Offset CPE P
+//   7085.c6dd.cd57 10.1.1
 
 /*
 // MAC States:
