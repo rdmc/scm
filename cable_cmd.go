@@ -1,10 +1,22 @@
 package main
 
+import (
+        "network"
+	"github.com/rdmc/mac"
+)
 
 // ios Version 12.2(33)SCG7
 // assume NO dual ip (ip v4 only), No cable modem remote query
-// show cable modem xxxx.xxxx.xxxx
 
+
+
+type scm_response struct {
+        mac     mac.MAC
+        ip      net
+
+
+/*
+// show cable modem xxxx.xxxx.xxxx
 // fields
 "MAC Addres"
 "IP Address"
@@ -15,8 +27,39 @@ package main
 "Timing Oddset"
 "Num CPE"
 "DIP"   - "Dual IP"
+*/
+
+func parseSCM(res []string) (string, string, error) {
+
+	if len(res) != 5 {
+		return "", "", fmt.Errorf("show cable modem: WTF???")
+	}
+
+	// replace "!" in response exp: "...online(pt)    4172!-4.50  4422"
+	f := strings.Fields(strings.Replace(res[3], "!", " ", -1))
+
+	if len(f) != 9 {
+		for k, v := range f {
+			fmt.Println(k, v)
+		}
+
+		return "", "", fmt.Errorf("show cable modem FIELDS: WTF???")
+	}
+
+	return f[3], res[3], nil
+}
+	//
+        //
+	//                                                                                    D
+	//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
+	//                                               State         Sid  (dBmv) Offset CPE P
+	//   7085.c6dd.cd57 10.1.1
 
 
+
+
+
+/*
 // MAC States:
 // simple version
 "offline", "Cable modem considered offline"
@@ -66,7 +109,7 @@ package main
 
 "online" "The CM has registered and is enabled to pass data on the network."
 
-"online(d)" "The CM registered, but network access for CPE devices using this CM has been disabled through the DOCSIS configuration file." 
+"online(d)" "The CM registered, but network access for CPE devices using this CM has been disabled through the DOCSIS configuration file."
 "online(pkd)" "This state is equivalent to the online(d) and onlike(pk) states"
 "online(ptd)" "This state is equivalent to the online(d) and onlike(pt) states"
 "online(pk)" "The CM registered, BPI is enabled and KEK is assigned."
@@ -105,10 +148,11 @@ has failed the dynamic secret authentication check.
 "w-expire(pk)" "The WCM registered, BPI is enabled, KEK was assigned, but the current KEK expired before the WCM could successfully renew a new KEK value."
 "w-expire(pkd)" "This state is equivalent to the w-online(d) and w-expire(pk) states."
 "w-expire(pt)" "The WCM registered, BPI is enabled, TEK was assigned, but the current TEK expired before the WCM could successfully renew a new KEK value."
-"w-expire(ptd)" "This state is equivalent to the w-online(d) and w-expire(pt) states." 
+"w-expire(ptd)" "This state is equivalent to the w-online(d) and w-expire(pt) states."
 
 "w-reject(pk)" "KEK key assignment is rejected, BPI encryption has not been established."
 "w-reject(pkd)" "This state is equivalent to the w-online(d) and w-reject(pk) states."
 "w-reject(pt)" "TEK key assignment is rejected, BPI encryption has not been established."
-"w-reject(ptd)" "This state is equivalent to the w-online(d) and w-reject(pt) states." 
+"w-reject(ptd)" "This state is equivalent to the w-online(d) and w-reject(pt) states."
 
+*/
