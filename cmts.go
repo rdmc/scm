@@ -32,9 +32,9 @@ type Session struct {
 func (c *CMTS) Connect() error {
 	var err error
 	sshConfig := &ssh.ClientConfig{
-		User: cmtsUsername,
+		User: config.cmtsUsername,
 		Auth: []ssh.AuthMethod{
-			ssh.Password(cmtsPassword),
+			ssh.Password(config.cmtsPassword),
 		},
 	}
 	sshConfig.Ciphers = append(sshConfig.Ciphers, "aes128-cbc") // bad ciscio, bad !!!!

@@ -38,14 +38,14 @@ func main() {
 		log.Fatal("UNABLE TO CREATE SESSION:", err)
 	}
 	fmt.Println("!#create session ok")
-	res, _ := s.Command("show cable modem " + m.CiscoString() + "2")
+	res, _ := s.Command("show cable modem " + m.CiscoString())
 	fmt.Println(strings.Join(res, "\n"))
 	fmt.Printf("len res = %d\n", len(res))
 	fmt.Println("!#send commmand ok")
 
 	state, line, err := parseSCM(res)
 	if err != nil {
-		log.Println("Erroe:", err)
+		log.Println("Error:", err)
 		goto end
 	}
 	fmt.Printf("CMTS:%s\nModem: %s\nState: %s\nline: %q\n", c.name, m, state, line)

@@ -5,10 +5,10 @@ import
 
 "os"
 
-var (
+var config struct {
 	cmtsUsername string
 	cmtsPassword string
-)
+}
 
 /*
 type Configuration struct {
@@ -20,8 +20,8 @@ type Configuration struct {
 // becose the github repo is public, we must protect ours screts
 // get cmts username and password from system enviroment
 func init() {
-	cmtsUsername = os.Getenv("RDMC_CMTS_USER")
-	cmtsPassword = os.Getenv("RDMC_CMTS_PASS")
+	config.cmtsUsername = os.Getenv("RDMC_CMTS_USER")
+	config.cmtsPassword = os.Getenv("RDMC_CMTS_PASS")
 	/*
 		        file, _ := os.Open("conf.json")
 			decoder := json.NewDecoder(file)
