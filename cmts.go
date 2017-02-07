@@ -55,7 +55,7 @@ func (c *CMTS) CreateSession() (*Session, error) {
 
 	s.Session, err = c.conn.NewSession()
 	if err != nil {
-		//		log.Println("error new session", err)
+		//log.Println("error new session", err)
 		return nil, err
 	}
 
@@ -71,13 +71,13 @@ func (c *CMTS) CreateSession() (*Session, error) {
 
 	err = s.Session.RequestPty("vt100", 0, 2000, modes)
 	if err != nil {
-		//		log.Println("error session request tty", err)
+		//log.Println("error session request tty", err)
 		return nil, err
 	}
 
 	err = s.Session.Shell()
 	if err != nil {
-		//		log.Println("error session shell", err)
+		//log.Println("error session shell", err)
 		return nil, err
 	}
 
@@ -133,32 +133,3 @@ func (s *Session) Command(cmd string) ([]string, error) {
 
 	return out, nil
 }
-
-/*
-func scm(t *telnet.Conn, mac string) (string, string, error) {
-
-	if len(res) != 5 {
-		return "", "", fmt.Errorf("show cable modem: WTF???")
-	}
-
-	// replace "!" in response exp: "...online(pt)    4172!-4.50  4422"
-	f := strings.Fields(strings.Replace(res[3], "!", " ", -1))
-
-	if len(f) != 9 {
-		for k, v := range f {
-			fmt.Println(k, v)
-		}
-
-		return "", "", fmt.Errorf("show cable modem FIELDS: WTF???")
-	}
-
-	return f[3], res[3], nil
-	//
-        //
-	//                                                                                    D
-	//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
-	//                                               State         Sid  (dBmv) Offset CPE P
-	//   7085.c6dd.cd57 10.1.1
-
-
-*/
