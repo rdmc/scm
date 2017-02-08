@@ -16,6 +16,8 @@ func main() {
 	ticker := time.Tick(200 * time.Millisecond)
 	whell := []byte("\\|/-")
 	whellCnt := 0
+	whellPtr := flag.Bool("whell", false, "rotating whell")
+
 	flag.Parse()
 	m, err := mac.ParseMAC(flag.Arg(0))
 	if err != nil {
@@ -65,11 +67,13 @@ main_loop:
 			elapsedTime := time.Since(startTime)
 			desc, _ := cm_status(state)
 			fmt.Printf("\r                                                                                     ")
-			fmt.Printf("\r@%s, Elapsed:%s, State: %s,\n\t%s\n", time.Now(), elapsedTime, state, desc)
+			fmt.Printf("\r@%s, Elapsed: %s, State: %s,\n\t%s\n", time.Now().Format("2006-01-02 15:04:05.000"), elapsedTime, state, desc)
 		}
-		whellCnt++
-		whellCnt %= 4
-		fmt.Printf("\r%s %c", line, whell[whellCnt])
+		if *whellPtr {
+			whellCnt++
+			whellCnt %= 4
+			fmt.Printf("\r%s %c", line, whell[whellCnt])
+		}
 	}
 	fmt.Println("That's All Folks!")
 }
