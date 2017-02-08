@@ -8,6 +8,7 @@ import
 var config struct {
 	cmtsUsername string
 	cmtsPassword string
+	cmtsAddr     string
 }
 
 /*
@@ -22,6 +23,7 @@ type Configuration struct {
 func init() {
 	config.cmtsUsername = os.Getenv("RDMC_CMTS_USER")
 	config.cmtsPassword = os.Getenv("RDMC_CMTS_PASS")
+	config.cmtsAddr = os.Getenv("RDMC_CMTS_ADDR")
 	/*
 		        file, _ := os.Open("conf.json")
 			decoder := json.NewDecoder(file)

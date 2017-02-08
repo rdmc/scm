@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"strings"
+	"time"
 	//"net"
 	//"sync"
 
@@ -13,7 +13,9 @@ import (
 
 func main() {
 	fmt.Println("Show Cable Modem test")
-
+	ticker := time.Tick(200 * time.Millisecond)
+	whell := []byte("\\|/-")
+	whellCnt := 0
 	flag.Parse()
 	m, err := mac.ParseMAC(flag.Arg(0))
 	if err != nil {
@@ -23,39 +25,62 @@ func main() {
 	fmt.Println("looking for", m)
 
 	c := &CMTS{
-		//name:   "cm02ac01",
-		name:   "pdl1cmts002",
-		addr:   "10.212.128.1",
+		//name:   "pdl1cmts002",
+		//addr:   "10.212.128.1",
+		name:   config.cmtsAddr,
+		addr:   config.cmtsAddr,
 		prompt: "#",
 	}
 
 	if err := c.Connect(); err != nil {
 		log.Fatal("UNEBLE TO CONNECT:", err)
 	}
-	fmt.Println("!#connect ok")
+	defer c.Close()
 	s, err := c.CreateSession()
 	if err != nil {
 		log.Fatal("UNABLE TO CREATE SESSION:", err)
 	}
-	fmt.Println("!#create session ok")
-	res, _ := s.Command("show cable modem " + m.CiscoString())
-	fmt.Println(strings.Join(res, "\n"))
-	fmt.Printf("len res = %d\n", len(res))
-	fmt.Println("!#send commmand ok")
+	defer s.Close()
 
-	state, line, err := parseSCM(res)
-	if err != nil {
-		log.Println("Error:", err)
-		goto end
+	startTime := time.Now()
+	last_state := ""
+main_loop:
+	for {
+		select {
+		case <-ticker:
+			// pass
+		}
+
+		res, _ := s.Command("show cable modem " + m.CiscoString())
+
+		state, line, err := parseSCM(res)
+
+		if err != nil {
+			log.Println("Error:", err)
+			break main_loop
+		}
+		//fmt.Printf("CMTS:%s\nModem: %s\nState: %s\nline: %q\n", c.name, m, state, line)
+		if state != last_state {
+			last_state = state
+			elapsedTime := time.Since(startTime)
+			desc, _ := cm_status(state)
+			fmt.Printf("\r                                                                                     ")
+			fmt.Printf("\r@%s, Elapsed:%s, State: %s,\n\t%s\n", time.Now(), elapsedTime, state, desc)
+		}
+		whellCnt++
+		whellCnt %= 4
+		fmt.Printf("\r%s %c", line, whell[whellCnt])
 	}
-	fmt.Printf("CMTS:%s\nModem: %s\nState: %s\nline: %q\n", c.name, m, state, line)
-end:
-	s.Close()
-	fmt.Println("!#Session close ok")
-	c.Close()
-	fmt.Println("!#Client close ok")
-
-	fmt.Println("!#Bye, Bye")
-
 	fmt.Println("That's All Folks!")
+}
+
+func loop() {
+	ticker := time.Tick(200 * time.Millisecond)
+	for {
+		select {
+		case <-ticker:
+			// pass
+		}
+
+	}
 }

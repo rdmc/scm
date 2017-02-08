@@ -30,6 +30,10 @@ type scm_response struct {
 
 func parseSCM(res []string) (string, string, error) {
 
+	if len(res) == 2 && strings.Contains(res[0], "not registered.") {
+		return "", "", fmt.Errorf(res[0])
+	}
+
 	if len(res) != 5 {
 		return "", "", fmt.Errorf("show cable modem: WTF???")
 	}
@@ -44,43 +48,17 @@ func parseSCM(res []string) (string, string, error) {
 	return f[3], res[3], nil
 }
 
-//
-//
-//                                                                                    D
-//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
-//                                               State         Sid  (dBmv) Offset CPE P
-//   7085.c6dd.cd57 10.1.1
-
-/*
-// MAC States:
-// simple version
-"offline", "Cable modem considered offline"
-
-"init (r1)", "Cable modem sent initial ranging"
-"init (r2)", "Cable modem is ranging"
-"init (rc)", "Cable modem ranging complete"
-
-"init (d)", "DHCP request received"
-"init (i)", "DHCP reply received; IP address assigned"
-
-"init (t)", "TOD exchange started"
-"init (o)", "Option file transfer started"
-
-"online", "Cable modem registered, enabled for data"
-"online(d)", "Cable modem registered, but network access for the cable modem is disabled"
-"online(pk)", "Cable modem registered, BPI enabled and KEK assigned"
-"online(pt)", "Cable modem registered, BPI enabled and TEK assigned"
-
-"reject (pk)", "KEK modem key assignment rejected"
-"reject (pt)" , "TEK modem key assignment rejected"
-"reject (m)", "Cable modem did attempt to register; registration was refused due to bad MIC (Message Integrity Check)"
-"reject (c)", "Cable modem did attempt to register; registration was refused due to bad COS (Class of Service)"
-"reject (r)",  "CM did attempt to register, registration was refused due to unavailable resource."
+/* NOT FOUND
+cm01ac03#scm e448.c7bd.935a
+Cable modem with MAC address e448.c7bd.935a not registered.
 */
 
+//   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
+//                                               State         Sid  (dBmv) Offset CPE P
+
 // MAC States:
-func cm_stat() (string, int) {
-	cm_states := map[string]string{
+func cm_status(s string) (string, int) {
+	cm_stat := map[string]string{
 		//Registration and Provisioning Status Conditions
 		"init(r1)": "The CM sent initial ranging.",
 		"init(r2)": "The CM is ranging.",
@@ -147,4 +125,11 @@ func cm_stat() (string, int) {
 		"w-reject(pt)":  "TEK key assignment is rejected, BPI encryption has not been established.",
 		"w-reject(ptd)": "This state is equivalent to the w-online(d) and w-reject(pt) states.",
 	}
+	desc, ok := cm_stat[s]
+	if !ok {
+		return "WTF!!!!", 0
+	}
+
+	return desc, 0
+
 }
