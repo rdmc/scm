@@ -30,10 +30,6 @@ type scm_response struct {
 
 func parseSCM(res []string) (string, string, error) {
 
-	if len(res) == 2 && strings.Contains(res[0], "not registered.") {
-		return "", "", fmt.Errorf(res[0])
-	}
-
 	if len(res) != 5 {
 		return "", "", fmt.Errorf("show cable modem: WTF???")
 	}
@@ -48,17 +44,16 @@ func parseSCM(res []string) (string, string, error) {
 	return f[3], res[3], nil
 }
 
-/* NOT FOUND
-cm01ac03#scm e448.c7bd.935a
-Cable modem with MAC address e448.c7bd.935a not registered.
-*/
-
+//
+//
+//                                                                                    D
 //   MAC Address    IP Address     I/F           MAC           Prim RxPwr  Timing Num I
 //                                               State         Sid  (dBmv) Offset CPE P
+//   7085.c6dd.cd57 10.1.1
 
 // MAC States:
-func cm_status(s string) (string, int) {
-	cm_stat := map[string]string{
+func cmStatus(s string) (string, int) {
+	cmStat := map[string]string{
 		//Registration and Provisioning Status Conditions
 		"init(r1)": "The CM sent initial ranging.",
 		"init(r2)": "The CM is ranging.",
@@ -125,7 +120,7 @@ func cm_status(s string) (string, int) {
 		"w-reject(pt)":  "TEK key assignment is rejected, BPI encryption has not been established.",
 		"w-reject(ptd)": "This state is equivalent to the w-online(d) and w-reject(pt) states.",
 	}
-	desc, ok := cm_stat[s]
+	desc, ok := cmStat[s]
 	if !ok {
 		return "WTF!!!!", 0
 	}

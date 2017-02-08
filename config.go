@@ -21,9 +21,9 @@ type Configuration struct {
 // becose the github repo is public, we must protect ours screts
 // get cmts username and password from system enviroment
 func init() {
-	config.cmtsUsername = os.Getenv("RDMC_CMTS_USER")
-	config.cmtsPassword = os.Getenv("RDMC_CMTS_PASS")
-	config.cmtsAddr = os.Getenv("RDMC_CMTS_ADDR")
+	config.cmtsUsername = os.Getenv("SCM_CMTS_USER")
+	config.cmtsPassword = os.Getenv("SCM_CMTS_PASS")
+	config.cmtsAddr = os.Getenv("SCM_CMTS_ADDR")
 	/*
 		        file, _ := os.Open("conf.json")
 			decoder := json.NewDecoder(file)

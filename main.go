@@ -13,7 +13,7 @@ import (
 
 func main() {
 	fmt.Println("Show Cable Modem test")
-	ticker := time.Tick(200 * time.Millisecond)
+	ticker := time.Tick(100 * time.Millisecond)
 	whell := []byte("\\|/-")
 	whellCnt := 0
 	whellPtr := flag.Bool("whell", false, "rotating whell")
@@ -24,8 +24,6 @@ func main() {
 		log.Fatal("You must provide a valid mac addr")
 	}
 
-	fmt.Println("looking for", m)
-
 	c := &CMTS{
 		//name:   "pdl1cmts002",
 		//addr:   "10.212.128.1",
@@ -33,6 +31,7 @@ func main() {
 		addr:   config.cmtsAddr,
 		prompt: "#",
 	}
+	fmt.Println("looking for", m, "in", c.addr)
 
 	if err := c.Connect(); err != nil {
 		log.Fatal("UNEBLE TO CONNECT:", err)
@@ -45,7 +44,7 @@ func main() {
 	defer s.Close()
 
 	startTime := time.Now()
-	last_state := ""
+	lastState := ""
 main_loop:
 	for {
 		select {
@@ -62,10 +61,10 @@ main_loop:
 			break main_loop
 		}
 		//fmt.Printf("CMTS:%s\nModem: %s\nState: %s\nline: %q\n", c.name, m, state, line)
-		if state != last_state {
-			last_state = state
+		if state != lastState {
+			lastState = state
 			elapsedTime := time.Since(startTime)
-			desc, _ := cm_status(state)
+			desc, _ := cmStatus(state)
 			fmt.Printf("\r                                                                                     ")
 			fmt.Printf("\r@%s, Elapsed: %s, State: %s,\n\t%s\n", time.Now().Format("2006-01-02 15:04:05.000"), elapsedTime, state, desc)
 		}
@@ -76,15 +75,4 @@ main_loop:
 		}
 	}
 	fmt.Println("That's All Folks!")
-}
-
-func loop() {
-	ticker := time.Tick(200 * time.Millisecond)
-	for {
-		select {
-		case <-ticker:
-			// pass
-		}
-
-	}
 }
