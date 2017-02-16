@@ -9,6 +9,7 @@ var config struct {
 	cmtsUsername string
 	cmtsPassword string
 	cmtsAddr     string
+	cmtsPrompt   string
 }
 
 /*
@@ -24,6 +25,8 @@ func init() {
 	config.cmtsUsername = os.Getenv("SCM_CMTS_USER")
 	config.cmtsPassword = os.Getenv("SCM_CMTS_PASS")
 	config.cmtsAddr = os.Getenv("SCM_CMTS_ADDR")
+	config.cmtsPrompt = os.Getenv("SCM_CMTS_PROMPT")
+
 	/*
 		        file, _ := os.Open("conf.json")
 			decoder := json.NewDecoder(file)

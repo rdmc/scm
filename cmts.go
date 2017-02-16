@@ -21,6 +21,11 @@ type CMTS struct {
 	// last time
 }
 
+var cmtsList = []CMTS{
+	CMTS{name: "PDG1CMTS001", addr: "212.113.187.166"}
+}
+
+
 type Session struct {
 	//mu sync.mutex
 	in   io.WriteCloser

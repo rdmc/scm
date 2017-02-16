@@ -14,9 +14,9 @@ import (
 func main() {
 	fmt.Println("Show Cable Modem test")
 	ticker := time.Tick(100 * time.Millisecond)
-	whell := []byte("\\|/-")
-	whellCnt := 0
-	whellPtr := flag.Bool("whell", false, "rotating whell")
+	wheel := []byte("\\|/-")
+	wheelCnt := 0
+	wheelPtr := flag.Bool("wheel", false, "rotating wheel")
 
 	flag.Parse()
 	m, err := mac.ParseMAC(flag.Arg(0))
@@ -29,8 +29,9 @@ func main() {
 		//addr:   "10.212.128.1",
 		name:   config.cmtsAddr,
 		addr:   config.cmtsAddr,
-		prompt: "#",
+		prompt: config.cmtsPrompt,
 	}
+
 	fmt.Println("looking for", m, "in", c.addr)
 
 	if err := c.Connect(); err != nil {
@@ -68,10 +69,10 @@ main_loop:
 			fmt.Printf("\r                                                                                     ")
 			fmt.Printf("\r@%s, Elapsed: %s, State: %s,\n\t%s\n", time.Now().Format("2006-01-02 15:04:05.000"), elapsedTime, state, desc)
 		}
-		if *whellPtr {
-			whellCnt++
-			whellCnt %= 4
-			fmt.Printf("\r%s %c", line, whell[whellCnt])
+		if *wheelPtr {
+			wheelCnt++
+			wheelCnt %= 4
+			fmt.Printf("\r%s %c", line, wheel[wheelCnt])
 		}
 	}
 	fmt.Println("That's All Folks!")
